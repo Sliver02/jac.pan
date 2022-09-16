@@ -1,10 +1,22 @@
-import { Button } from '@assets/styles/globals';
 import Navbar from '@components/navbar';
 import Head from 'next/head';
 import { useState } from 'react';
 import GlobalContext from './globalContext';
+import styled, { css } from 'styled-components';
+import { gsap, Quart } from '@utils/gsap.js';
 
-export default function Home() {
+const Section = styled.div`
+    width: 100%;
+    height: 100vh;
+    background: ${(props) => props.background};
+`;
+
+const ScrollHub = styled.div`
+    width: 100vw;
+    height: 100vh;
+`;
+
+const Home = () => {
     let [pageIndex, setPageIndex] = useState(0);
     let [showMenu, setShowMenu] = useState(false);
     let [projectIndex, setProjectIndex] = useState(0);
@@ -44,9 +56,17 @@ export default function Home() {
 
             <main>
                 <Navbar />
+                <ScrollHub>
+                    <Section background="#4ee" />
+                    <Section background="#ee9f44" />
+                    <Section background="#5544ee" />
+                    <Section background="#ee4444" />
+                </ScrollHub>
             </main>
 
             <footer></footer>
         </GlobalContext.Provider>
     );
-}
+};
+
+export default Home;

@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# dependencies
+/node_modules
+
 # testing
 /coverage
 
@@ -17,6 +20,7 @@
 
 # misc
 .DS_Store
+package-lock.json
 *.pem
 
 # debug
@@ -33,4 +37,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+package-lock.json
