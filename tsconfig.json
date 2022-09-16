@@ -9,7 +9,7 @@
             "@pages/*": ["src/pages/*"],
             "@components/*": ["src/components/*"],
             "@assets/*": ["src/assets/*"],
-            "@styles/*": ["src/styles/*"],
+            "@styles/*": ["src/assets/styles/*"],
             "@img/*": ["src/assets/img/*"]
         },
         "allowJs": true,
