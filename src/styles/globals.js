@@ -16,7 +16,10 @@ export const GlobalStyles = createGlobalStyle`
     // base global style
     html, 
     body {
+        font-family: 'Roboto Mono', monospace;
         font-display: swap;
+        line-height: 1.6;
+
         scroll-behavior: smooth;
         height: -webkit-fill-available;
 
@@ -24,7 +27,5 @@ export const GlobalStyles = createGlobalStyle`
         -webkit-text-size-adjust: 100%;
         -moz-osx-font-smoothing: grayscale;
         -webkit-font-smoothing: antialiased;
-
-        line-height: 1.3;
     }
 `;
