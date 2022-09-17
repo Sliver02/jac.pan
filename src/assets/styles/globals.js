@@ -15,6 +15,13 @@ export const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
     }
 
+    main {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
+    }
+
     // base global style
     html, 
     body {

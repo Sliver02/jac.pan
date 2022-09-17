@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
 interface IGlobalContext {
-    pageIndex?: number;
-    setPageIndex?: (number) => void;
+    panelIndex?: number;
+    setPanelIndex?: (number) => void;
     showMenu?: boolean;
     setShowMenu?: (boolean) => void;
     projectIndex?: number;

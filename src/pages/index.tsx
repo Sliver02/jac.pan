@@ -1,32 +1,88 @@
 import Navbar from '@components/navbar';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import GlobalContext from './globalContext';
 import styled, { css } from 'styled-components';
 import { gsap, Quart } from '@utils/gsap.js';
 
-const Section = styled.div`
-    width: 100%;
-    height: 100vh;
+const Panel = styled.div`
     background: ${(props) => props.background};
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px;
 `;
 
-const ScrollHub = styled.div`
-    width: 100vw;
+const PanelsContainer = styled.div`
+    width: 600%;
     height: 100vh;
+    display: flex;
+    flex-wrap: nowrap;
 `;
 
 const Home = () => {
-    let [pageIndex, setPageIndex] = useState(0);
+    let [panelIndex, setPanelIndex] = useState(0);
     let [showMenu, setShowMenu] = useState(false);
     let [projectIndex, setProjectIndex] = useState(0);
     let [showProject, setShowProject] = useState(false);
 
+    const panelsRef = useRef([]);
+    const panelsContainerRef = useRef(null);
+
+    let offsets = [];
+
+    const createPanelsRefs = (panel, index) => {
+        panelsRef.current[index] = panel;
+    };
+
+    useEffect(() => {
+        if (!panelsRef || !panelsContainerRef) {
+            return;
+        }
+
+        const totalPanels = panelsRef.current.length;
+
+        let horizontalScroll = gsap.to(panelsRef.current, {
+            xPercent: -100 * (totalPanels - 1),
+            ease: 'none',
+            scrollTrigger: {
+                trigger: panelsContainerRef.current,
+                pin: true,
+                scrub: 1,
+                snap: 1 / (totalPanels - 1),
+                // base vertical scrolling on how wide the container is so it feels more natural.
+                end: () => '+=' + panelsRef.current[panelsRef.current.length - 1].offsetLeft,
+            },
+        });
+    }, []);
+
+    useEffect(() => {
+        offsets = [];
+
+        panelsRef.current.map((panel) => {
+            offsets.push(panel.offsetLeft);
+        });
+
+        gsap.to(window, {
+            duration: 1,
+            scrollTo: offsets[panelIndex],
+        });
+    }, [panelIndex]);
+
     return (
         <GlobalContext.Provider
             value={{
-                pageIndex,
-                setPageIndex,
+                panelIndex,
+                setPanelIndex,
                 showMenu,
                 setShowMenu,
                 projectIndex,
@@ -56,12 +112,12 @@ const Home = () => {
 
             <main>
                 <Navbar />
-                <ScrollHub>
-                    <Section background="#4ee" />
-                    <Section background="#ee9f44" />
-                    <Section background="#5544ee" />
-                    <Section background="#ee4444" />
-                </ScrollHub>
+                <PanelsContainer ref={panelsContainerRef}>
+                    <Panel background="#4ee" ref={(e) => createPanelsRefs(e, 0)} />
+                    <Panel background="#ee9f44" ref={(e) => createPanelsRefs(e, 1)} />
+                    <Panel background="#5544ee" ref={(e) => createPanelsRefs(e, 2)} />
+                    <Panel background="#ee4444" ref={(e) => createPanelsRefs(e, 3)} />
+                </PanelsContainer>
             </main>
 
             <footer></footer>
