@@ -166,17 +166,12 @@ const StyledNavbar = styled.div`
 `;
 
 const Navbar = ({ on_click }) => {
-    const pages = ['home', 'about', 'contact', 'works'];
+    const pages = ['home', 'works', 'about', 'contact'];
     const { panelIndex, setPanelIndex, showMenu, setShowMenu } = useContext(GlobalContext);
 
     const handleClick = (index) => {
         setPanelIndex(index);
         on_click(index);
-
-        // gsap.to(window, {
-        //     duration: 1,
-        //     scrollTo: offsets[panelIndex],
-        // });
     };
 
     return (
