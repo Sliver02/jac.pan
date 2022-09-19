@@ -6,8 +6,6 @@ import styled, { css } from 'styled-components';
 import { gsap, Quart } from '@utils/gsap.js';
 
 const Panel = styled.div`
-    background: ${(props) => props.background};
-
     width: 100%;
     height: 100%;
     display: flex;
@@ -20,10 +18,12 @@ const Panel = styled.div`
     position: relative;
     box-sizing: border-box;
     padding: 10px;
+
+    background: ${(props) => props.background};
 `;
 
 const PanelsContainer = styled.div`
-    width: 600%;
+    width: ${(props) => props.panels * 100}%;
     height: 100vh;
     display: flex;
     flex-wrap: nowrap;
@@ -38,18 +38,16 @@ const Home = () => {
     const panelsRef = useRef([]);
     const panelsContainerRef = useRef(null);
 
-    let offsets = [];
-
-    const createPanelsRefs = (panel, index) => {
-        panelsRef.current[index] = panel;
+    const createPanelsRefs = (ref, panel, index) => {
+        ref.current[index] = panel;
     };
 
-    useEffect(() => {
-        if (!panelsRef || !panelsContainerRef) {
+    const horizontalScroll = (container, panels) => {
+        if (!container || !panels) {
             return;
         }
 
-        const totalPanels = panelsRef.current.length;
+        const totalPanels = panels.current.length;
 
         let horizontalScroll = gsap.to(panelsRef.current, {
             xPercent: -100 * (totalPanels - 1),
@@ -63,10 +61,14 @@ const Home = () => {
                 end: () => '+=' + panelsRef.current[panelsRef.current.length - 1].offsetLeft,
             },
         });
-    }, []);
+    };
 
     useEffect(() => {
-        offsets = [];
+        horizontalScroll(panelsContainerRef, panelsRef);
+    }, []);
+
+    const switchPanel = (index) => {
+        let offsets = [];
 
         panelsRef.current.map((panel) => {
             offsets.push(panel.offsetLeft);
@@ -74,9 +76,9 @@ const Home = () => {
 
         gsap.to(window, {
             duration: 1,
-            scrollTo: offsets[panelIndex],
+            scrollTo: offsets[index],
         });
-    }, [panelIndex]);
+    };
 
     return (
         <GlobalContext.Provider
@@ -111,12 +113,12 @@ const Home = () => {
             </Head>
 
             <main>
-                <Navbar />
-                <PanelsContainer ref={panelsContainerRef}>
-                    <Panel background="#4ee" ref={(e) => createPanelsRefs(e, 0)} />
-                    <Panel background="#ee9f44" ref={(e) => createPanelsRefs(e, 1)} />
-                    <Panel background="#5544ee" ref={(e) => createPanelsRefs(e, 2)} />
-                    <Panel background="#ee4444" ref={(e) => createPanelsRefs(e, 3)} />
+                <Navbar on_click={switchPanel} />
+                <PanelsContainer ref={panelsContainerRef} panels={4}>
+                    <Panel background="#4ee" ref={(e) => createPanelsRefs(panelsRef, e, 0)} />
+                    <Panel background="#ee9f44" ref={(e) => createPanelsRefs(panelsRef, e, 1)} />
+                    <Panel background="#5544ee" ref={(e) => createPanelsRefs(panelsRef, e, 2)} />
+                    <Panel background="#ee4444" ref={(e) => createPanelsRefs(panelsRef, e, 3)} />
                 </PanelsContainer>
             </main>
 

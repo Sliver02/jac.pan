@@ -165,12 +165,13 @@ const StyledNavbar = styled.div`
     width: 100%;
 `;
 
-const Navbar = ({}) => {
+const Navbar = ({ on_click }) => {
     const pages = ['home', 'about', 'contact', 'works'];
     const { panelIndex, setPanelIndex, showMenu, setShowMenu } = useContext(GlobalContext);
 
     const handleClick = (index) => {
         setPanelIndex(index);
+        on_click(index);
 
         // gsap.to(window, {
         //     duration: 1,
