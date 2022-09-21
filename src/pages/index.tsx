@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components';
 import { gsap, Quart } from '@utils/gsap.js';
 import { useViewport } from '@utils/useViewport';
 import Dots from '@components/dots';
+import { createPanelsRefs } from '@utils/utility';
 
 const Panel = styled.div`
     width: 100%;
@@ -49,10 +50,6 @@ const Home = () => {
 
     const labels = ['panel1', 'panel2', 'panel3', 'panel4'];
 
-    const createPanelsRefs = (ref, panel, index) => {
-        ref.current[index] = panel;
-    };
-
     const horizontalScroll = (container, panels) => {
         if (!container || !panels) {
             return;
@@ -67,58 +64,54 @@ const Home = () => {
                 trigger: panelsContainerRef.current,
                 pin: true,
                 scrub: 1,
-                markers: true,
+                // markers: true,
                 start: 'center center',
                 // base vertical scrolling on how wide the container is so it feels more natural.
                 end: () => '+=' + panelsRef.current[panelsRef.current.length - 1].offsetLeft,
-                // snap: {
-                //     snapTo: 'labelsDirectional',
-                //     // duration: { min: 0.2, max: 2 },
-                //     // delay: 0,
-                //     // ease: Quart.easeOut,
-                // },
             },
         });
-
-        setScrollTimeline(scrollTimeline);
-
-        scrollTimeline.add(labels[0], '<');
-        scrollTimeline.add('+=0.05');
 
         scrollTimeline.add(
             gsap.to(panelsRef.current, {
                 xPercent: -100 * 1,
-            })
+                onComplete: () => setPanelIndex(1),
+                onReverseComplete: () => setPanelIndex(0),
+            }),
+            labels[0]
         );
-
-        scrollTimeline.add(labels[1], '>');
 
         if (panel2Height > height) {
             scrollTimeline.add(
                 gsap.to(panelsRef.current[1], {
                     y: -panel2Height + height,
-                })
+                    onComplete: () => setPanelIndex(1),
+                    onReverseComplete: () => setPanelIndex(1),
+                }),
+                labels[1]
             );
-
-            scrollTimeline.add('panel2-2', '>');
         }
 
         scrollTimeline.add(
             gsap.to(panelsRef.current, {
                 xPercent: -100 * 2,
-            })
+                onComplete: () => setPanelIndex(2),
+                onReverseComplete: () => setPanelIndex(1),
+            }),
+            'label1-2'
         );
-
-        scrollTimeline.add(labels[2], '>');
 
         scrollTimeline.add(
             gsap.to(panelsRef.current, {
                 xPercent: -100 * 3,
-            })
+                onComplete: () => setPanelIndex(3),
+                onReverseComplete: () => setPanelIndex(2),
+            }),
+            labels[2]
         );
 
-        scrollTimeline.add('-=0.05');
-        scrollTimeline.add(labels[3], '+=0.05');
+        scrollTimeline.add(labels[3]);
+
+        setScrollTimeline(scrollTimeline);
     };
 
     useEffect(() => {
@@ -131,7 +124,11 @@ const Home = () => {
     }, [width, height]);
 
     const switchPanel = (index) => {
-        gsap.to(window, { scrollTo: scrollTimeline.scrollTrigger.labelToScroll(labels[index]) });
+        let modifier = panelIndex > index ? -1 : 1;
+
+        gsap.to(window, {
+            scrollTo: scrollTimeline.scrollTrigger.labelToScroll(labels[index]) + modifier,
+        });
     };
 
     return (
@@ -169,7 +166,7 @@ const Home = () => {
             </Head>
 
             <main>
-                <Navbar on_click={switchPanel} />
+                <Navbar on_click={switchPanel} panels={panelsRef} />
                 <Dots />
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
                     <Panel ref={(e) => createPanelsRefs(panelsRef, e, 0)} />

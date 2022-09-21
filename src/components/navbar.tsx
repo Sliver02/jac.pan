@@ -1,9 +1,11 @@
 import media from '@assets/styles/mediaQueries';
 import { color } from '@assets/styles/variables';
 import GlobalContext from '@pages/globalContext';
+import { createPanelsRefs } from '@utils/utility';
 import Image from 'next/image';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
+import { gsap, ScrollTrigger } from '@utils/gsap.js';
 
 const Wrap = styled.div`
     flex-wrap: wrap;
@@ -164,8 +166,21 @@ const StyledNavbar = styled.div`
     width: 100%;
 `;
 
-const Navbar = ({ on_click }) => {
-    const { panelIndex, pages, showMenu, setShowMenu } = useContext(GlobalContext);
+const Navbar = ({ on_click, panels }) => {
+    const { panelIndex, setPanelIndex, pages, showMenu, setShowMenu } = useContext(GlobalContext);
+    const navButtonsRef = useRef([]);
+
+    useEffect(() => {
+        // console.log(panels.current);
+        // panels.current.forEach((element, index) => {
+        //     ScrollTrigger.create({
+        //         markers: true,
+        //         trigger: element,
+        //         // start: 'top top',
+        //         // onToggle: () => console.log(index),
+        //     });
+        // });
+    }, [panels]);
 
     const handleClick = (index) => {
         // setPanelIndex(index);
@@ -188,6 +203,7 @@ const Navbar = ({ on_click }) => {
                     <Nav>
                         {pages.map((page, index) => (
                             <NavButton
+                                ref={(e) => createPanelsRefs(navButtonsRef, e, index)}
                                 key={index}
                                 active={panelIndex === index}
                                 onClick={() => panelIndex != index && handleClick(index)}
