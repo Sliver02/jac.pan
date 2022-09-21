@@ -19,6 +19,8 @@ interface IGlobalContext {
         show?: boolean;
     }[];
     setProjects?: ([]) => void;
+    pages?: string[];
+    setPages?: ([]) => void;
 }
 
 const GlobalContext = createContext<IGlobalContext>({});

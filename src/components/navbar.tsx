@@ -4,7 +4,6 @@ import GlobalContext from '@pages/globalContext';
 import Image from 'next/image';
 import { useContext } from 'react';
 import styled, { css } from 'styled-components';
-import { gsap, Quart } from '@utils/gsap.js';
 
 const Wrap = styled.div`
     flex-wrap: wrap;
@@ -166,11 +165,10 @@ const StyledNavbar = styled.div`
 `;
 
 const Navbar = ({ on_click }) => {
-    const pages = ['home', 'works', 'about', 'contact'];
-    const { panelIndex, setPanelIndex, showMenu, setShowMenu } = useContext(GlobalContext);
+    const { panelIndex, pages, showMenu, setShowMenu } = useContext(GlobalContext);
 
     const handleClick = (index) => {
-        setPanelIndex(index);
+        // setPanelIndex(index);
         on_click(index);
     };
 

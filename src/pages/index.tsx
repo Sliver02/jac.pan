@@ -5,6 +5,7 @@ import GlobalContext from './globalContext';
 import styled, { css } from 'styled-components';
 import { gsap, Quart } from '@utils/gsap.js';
 import { useViewport } from '@utils/useViewport';
+import Dots from '@components/dots';
 
 const Panel = styled.div`
     width: 100%;
@@ -23,6 +24,7 @@ const Panel = styled.div`
     padding: 10px;
 
     background: ${(props) => props.background};
+    border-right: 1px solid white;
 `;
 
 const PanelsContainer = styled.div`
@@ -38,6 +40,7 @@ const Home = () => {
     let [projectIndex, setProjectIndex] = useState(0);
     let [showProject, setShowProject] = useState(false);
     let [scrollTimeline, setScrollTimeline] = useState(null);
+    let [pages, setPages] = useState(['home', 'works', 'about', 'contact']);
 
     const panelsRef = useRef([]);
     const panelsContainerRef = useRef(null);
@@ -65,13 +68,14 @@ const Home = () => {
                 pin: true,
                 scrub: 1,
                 markers: true,
+                start: 'center center',
                 // base vertical scrolling on how wide the container is so it feels more natural.
                 end: () => '+=' + panelsRef.current[panelsRef.current.length - 1].offsetLeft,
                 // snap: {
                 //     snapTo: 'labelsDirectional',
-                //     duration: { min: 0.2, max: 2 },
-                //     delay: 0,
-                //     ease: Quart.easeOut,
+                //     // duration: { min: 0.2, max: 2 },
+                //     // delay: 0,
+                //     // ease: Quart.easeOut,
                 // },
             },
         });
@@ -79,6 +83,7 @@ const Home = () => {
         setScrollTimeline(scrollTimeline);
 
         scrollTimeline.add(labels[0], '<');
+        scrollTimeline.add('+=0.05');
 
         scrollTimeline.add(
             gsap.to(panelsRef.current, {
@@ -88,12 +93,10 @@ const Home = () => {
 
         scrollTimeline.add(labels[1], '>');
 
-        if (panel2Height > window.innerHeight) {
-            console.log('asdasd');
-
+        if (panel2Height > height) {
             scrollTimeline.add(
                 gsap.to(panelsRef.current[1], {
-                    y: -panel2Height + window.innerHeight,
+                    y: -panel2Height + height,
                 })
             );
 
@@ -114,7 +117,8 @@ const Home = () => {
             })
         );
 
-        scrollTimeline.add(labels[3], '>');
+        scrollTimeline.add('-=0.05');
+        scrollTimeline.add(labels[3], '+=0.05');
     };
 
     useEffect(() => {
@@ -127,18 +131,7 @@ const Home = () => {
     }, [width, height]);
 
     const switchPanel = (index) => {
-        let offsets = [];
-
-        panelsRef.current.map((panel) => {
-            offsets.push(panel.offsetLeft);
-        });
-
-        // gsap.to(window, {
-        //     duration: 1,
-        //     scrollTo: offsets[index],
-        // });
-
-        scrollTimeline.tweenTo(labels[index]);
+        gsap.to(window, { scrollTo: scrollTimeline.scrollTrigger.labelToScroll(labels[index]) });
     };
 
     return (
@@ -152,6 +145,8 @@ const Home = () => {
                 setProjectIndex,
                 showProject,
                 setShowProject,
+                pages,
+                setPages,
             }}
         >
             <Head>
@@ -175,20 +170,17 @@ const Home = () => {
 
             <main>
                 <Navbar on_click={switchPanel} />
+                <Dots />
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
-                    <Panel background="#4ee" ref={(e) => createPanelsRefs(panelsRef, e, 0)} />
-                    <Panel
-                        background="#ee9f44"
-                        height="300%"
-                        ref={(e) => createPanelsRefs(panelsRef, e, 1)}
-                    >
+                    <Panel ref={(e) => createPanelsRefs(panelsRef, e, 0)} />
+                    <Panel height="300%" ref={(e) => createPanelsRefs(panelsRef, e, 1)}>
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                     </Panel>
-                    <Panel background="#5544ee" ref={(e) => createPanelsRefs(panelsRef, e, 2)} />
-                    <Panel background="#ee4444" ref={(e) => createPanelsRefs(panelsRef, e, 3)} />
+                    <Panel ref={(e) => createPanelsRefs(panelsRef, e, 2)} />
+                    <Panel ref={(e) => createPanelsRefs(panelsRef, e, 3)} />
                 </PanelsContainer>
             </main>
 
