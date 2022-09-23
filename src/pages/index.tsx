@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
 import GlobalContext from './globalContext';
 import styled, { css } from 'styled-components';
-import { gsap, Quart } from '@utils/gsap.js';
+import { gsap, Quart, ScrollTrigger } from '@utils/gsap.js';
 import { useViewport } from '@utils/useViewport';
 import Dots from '@components/dots';
 import { createPanelsRefs } from '@utils/utility';
@@ -43,6 +43,7 @@ const Home = () => {
     let [showProject, setShowProject] = useState(false);
     let [scrollTimeline, setScrollTimeline] = useState(null);
     let [pages, setPages] = useState(['home', 'works', 'about', 'contact']);
+    let [labels, setlabels] = useState(['home', 'works', 'works2', 'about', 'contact']);
 
     const panelsRef = useRef([]);
     const panelsContainerRef = useRef(null);
@@ -70,51 +71,68 @@ const Home = () => {
             gsap.to(panels.current, {
                 xPercent: -100 * 1,
             }),
-            pages[0]
+            labels[0]
         );
 
-        if (workPanelHeight > height) {
-            scrollTimeline.add(
-                gsap.to(panels.current[1], {
-                    y: -workPanelHeight + height,
-                }),
-                pages[1]
-            );
-        }
+        // if (workPanelHeight > height) {
+        scrollTimeline.add(
+            gsap.to(panels.current[1], {
+                y: -workPanelHeight + height,
+            }),
+            labels[1]
+        );
+        // }
 
         scrollTimeline.add(
             gsap.to(panels.current, {
                 xPercent: -100 * 2,
             }),
-            'label1-2'
+            labels[2]
         );
 
         scrollTimeline.add(
             gsap.to(panels.current, {
                 xPercent: -100 * 3,
             }),
-            pages[2]
+            labels[3]
         );
 
-        scrollTimeline.add(pages[3]);
+        scrollTimeline.add(labels[4]);
 
         setScrollTimeline(scrollTimeline);
     };
 
-    const autoSwitchPanel = (panels) => {
+    // const autoSwitchPanel = (panels) => {
+    //     let labelPos = [];
+
+    //     labels.forEach((label) => labelPos.push(scrollTimeline.scrollTrigger.labelToScroll(label)));
+
+    //     console.log();
+
+    //     if (labelPos[0] <= scrollY && labelPos[1] - 1 > scrollY) {
+    //         setPanelIndex(0);
+    //     } else if (labelPos[1] <= scrollY && labelPos[2] - 1 > scrollY) {
+    //         setPanelIndex(1);
+    //     } else if (labelPos[2] <= scrollY && labelPos[3] - 1 > scrollY) {
+    //         setPanelIndex(2);
+    //     } else if (labelPos[3] <= scrollY) {
+    //         setPanelIndex(3);
+    //     }
+    // };
+
+    const panelScroll = (panel, index) => {
         let labelPos = [];
 
-        pages.forEach((page) => labelPos.push(scrollTimeline.scrollTrigger.labelToScroll(page)));
+        labels.forEach((label) => labelPos.push(scrollTimeline.scrollTrigger.labelToScroll(label)));
 
-        if (labelPos[0] <= scrollY && labelPos[1] - 1 > scrollY) {
-            setPanelIndex(0);
-        } else if (labelPos[1] <= scrollY && labelPos[2] - 1 > scrollY) {
-            setPanelIndex(1);
-        } else if (labelPos[2] <= scrollY && labelPos[3] - 1 > scrollY) {
-            setPanelIndex(2);
-        } else if (labelPos[3] <= scrollY) {
-            setPanelIndex(3);
-        }
+        ScrollTrigger.create({
+            markers: true,
+            trigger: panel.current[index],
+            start: labelPos[index] + ' top',
+            end: labelPos[index + 1] + ' top',
+            onEnter: () => setPanelIndex(index == 0 ? 1 : index),
+            onLeaveBack: () => setPanelIndex(index == 0 ? 0 : index - 1),
+        });
     };
 
     useEffect(() => {
@@ -124,23 +142,31 @@ const Home = () => {
 
         horizontalScroll(panelsContainerRef, panelsRef);
 
+        panelScroll(panelsRef, 0);
+        panelScroll(panelsRef, 1);
+        panelScroll(panelsRef, 2);
+        panelScroll(panelsRef, 3);
+
         return () => {
             scrollTimeline.scrollTrigger.disable();
             scrollTimeline.kill();
         };
-    }, [width, height]);
+    }, []);
 
     useEffect(() => {
         if (!window || !panelsRef) {
             return;
         }
 
-        autoSwitchPanel(panelsRef);
+        // autoSwitchPanel(panelsRef);
+        // console.log('scrollY', scrollY);
     }, [scrollY]);
 
     const switchPanel = (index) => {
+        let modifier = index == 1 ? 2 : panelIndex > index ? -1 : 1;
+
         gsap.to(window, {
-            scrollTo: scrollTimeline.scrollTrigger.labelToScroll(pages[index]) + 1,
+            scrollTo: scrollTimeline.scrollTrigger.labelToScroll(pages[index]) + modifier,
         });
     };
 
