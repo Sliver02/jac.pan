@@ -7,6 +7,7 @@ import { gsap, Quart } from '@utils/gsap.js';
 import { useViewport } from '@utils/useViewport';
 import Dots from '@components/dots';
 import { createPanelsRefs } from '@utils/utility';
+import { useScroll } from '@utils/useScroll';
 
 const Panel = styled.div`
     width: 100%;
@@ -47,74 +48,80 @@ const Home = () => {
     const panelsContainerRef = useRef(null);
 
     const { width, height } = useViewport();
-
-    const labels = ['panel1', 'panel2', 'panel3', 'panel4'];
+    const { scrollY } = useScroll();
 
     const horizontalScroll = (container, panels) => {
-        if (!container || !panels) {
-            return;
-        }
-
-        const totalPanels = panels.current.length;
-        const panel2Height = panelsRef.current[1].offsetHeight;
+        const workPanelHeight = panelsRef.current[1].offsetHeight;
 
         scrollTimeline = gsap.timeline({
             ease: 'none',
             scrollTrigger: {
-                trigger: panelsContainerRef.current,
+                trigger: container.current,
                 pin: true,
                 scrub: 1,
                 // markers: true,
                 start: 'center center',
                 // base vertical scrolling on how wide the container is so it feels more natural.
-                end: () => '+=' + panelsRef.current[panelsRef.current.length - 1].offsetLeft,
+                end: () => '+=' + panels.current[panels.current.length - 1].offsetLeft,
             },
         });
 
         scrollTimeline.add(
-            gsap.to(panelsRef.current, {
+            gsap.to(panels.current, {
                 xPercent: -100 * 1,
-                onComplete: () => setPanelIndex(1),
-                onReverseComplete: () => setPanelIndex(0),
             }),
-            labels[0]
+            pages[0]
         );
 
-        if (panel2Height > height) {
+        if (workPanelHeight > height) {
             scrollTimeline.add(
-                gsap.to(panelsRef.current[1], {
-                    y: -panel2Height + height,
-                    onComplete: () => setPanelIndex(1),
-                    onReverseComplete: () => setPanelIndex(1),
+                gsap.to(panels.current[1], {
+                    y: -workPanelHeight + height,
                 }),
-                labels[1]
+                pages[1]
             );
         }
 
         scrollTimeline.add(
-            gsap.to(panelsRef.current, {
+            gsap.to(panels.current, {
                 xPercent: -100 * 2,
-                onComplete: () => setPanelIndex(2),
-                onReverseComplete: () => setPanelIndex(1),
             }),
             'label1-2'
         );
 
         scrollTimeline.add(
-            gsap.to(panelsRef.current, {
+            gsap.to(panels.current, {
                 xPercent: -100 * 3,
-                onComplete: () => setPanelIndex(3),
-                onReverseComplete: () => setPanelIndex(2),
             }),
-            labels[2]
+            pages[2]
         );
 
-        scrollTimeline.add(labels[3]);
+        scrollTimeline.add(pages[3]);
 
         setScrollTimeline(scrollTimeline);
     };
 
+    const autoSwitchPanel = (panels) => {
+        let labelPos = [];
+
+        pages.forEach((page) => labelPos.push(scrollTimeline.scrollTrigger.labelToScroll(page)));
+
+        if (labelPos[0] <= scrollY && labelPos[1] - 1 > scrollY) {
+            setPanelIndex(0);
+        } else if (labelPos[1] <= scrollY && labelPos[2] - 1 > scrollY) {
+            setPanelIndex(1);
+        } else if (labelPos[2] <= scrollY && labelPos[3] - 1 > scrollY) {
+            setPanelIndex(2);
+        } else if (labelPos[3] <= scrollY) {
+            setPanelIndex(3);
+        }
+    };
+
     useEffect(() => {
+        if (!panelsContainerRef || !panelsRef) {
+            return;
+        }
+
         horizontalScroll(panelsContainerRef, panelsRef);
 
         return () => {
@@ -123,11 +130,17 @@ const Home = () => {
         };
     }, [width, height]);
 
-    const switchPanel = (index) => {
-        let modifier = panelIndex > index ? -1 : 1;
+    useEffect(() => {
+        if (!window || !panelsRef) {
+            return;
+        }
 
+        autoSwitchPanel(panelsRef);
+    }, [scrollY]);
+
+    const switchPanel = (index) => {
         gsap.to(window, {
-            scrollTo: scrollTimeline.scrollTrigger.labelToScroll(labels[index]) + modifier,
+            scrollTo: scrollTimeline.scrollTrigger.labelToScroll(pages[index]) + 1,
         });
     };
 
