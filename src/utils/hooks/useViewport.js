@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { breakpoints } from '@assets/styles/variables';
 
-export const useViewport = () => {
+const useViewport = () => {
     const { xs, sm, md, lg, xl } = breakpoints;
 
     const [viewport, setViewport] = useState({
@@ -44,3 +44,5 @@ export const useViewport = () => {
     }, []);
     return viewport;
 };
+
+export default useViewport;

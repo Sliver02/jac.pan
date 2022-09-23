@@ -167,23 +167,10 @@ const StyledNavbar = styled.div`
 `;
 
 const Navbar = ({ on_click, panels }) => {
-    const { panelIndex, setPanelIndex, pages, showMenu, setShowMenu } = useContext(GlobalContext);
+    const { panelIndex, pages, showMenu, setShowMenu } = useContext(GlobalContext);
     const navButtonsRef = useRef([]);
 
-    useEffect(() => {
-        // console.log(panels.current);
-        // panels.current.forEach((element, index) => {
-        //     ScrollTrigger.create({
-        //         markers: true,
-        //         trigger: element,
-        //         // start: 'top top',
-        //         // onToggle: () => console.log(index),
-        //     });
-        // });
-    }, [panels]);
-
     const handleClick = (index) => {
-        // setPanelIndex(index);
         on_click(index);
     };
 

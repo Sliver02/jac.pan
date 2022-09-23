@@ -22,6 +22,10 @@ Object.keys(process.env).forEach((key) => {
 
 const nextConfig = {
     webpack5: true,
+    reactStrictMode: true,
+    compiler: {
+        styledComponents: true,
+    },
     webpack: (config) => {
         config.resolve.fallback = { fs: false };
 

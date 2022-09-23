@@ -4,15 +4,17 @@ import { useEffect, useRef, useState } from 'react';
 import GlobalContext from './globalContext';
 import styled, { css } from 'styled-components';
 import { gsap, Quart, ScrollTrigger } from '@utils/gsap.js';
-import { useViewport } from '@utils/useViewport';
+import useViewport from '@utils/hooks/useViewport';
+import useScroll from '@utils/hooks/useScroll';
+import useMedia from '@utils/hooks/useMedia';
 import Dots from '@components/dots';
 import { createPanelsRefs } from '@utils/utility';
-import { useScroll } from '@utils/useScroll';
+import { breakpoints } from '@assets/styles/variables';
+import media from '@assets/styles/mediaQueries';
 
 const Panel = styled.div`
     width: 100%;
     min-height: 100%;
-    min-height: ${(props) => !!props.height && props.height};
 
     display: flex;
     justify-content: center;
@@ -26,22 +28,33 @@ const Panel = styled.div`
     padding: 10px;
 
     background: ${(props) => props.background};
-    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    border-right: none;
+
+    ${media.min.md`
+        min-height: ${(props) => !!props.height && props.height};
+        border-right: 1px solid white;
+        border-bottom: none;
+    `}
 `;
 
 const PanelsContainer = styled.div`
-    width: ${(props) => props.panels * 100}%;
     height: 100vh;
-    display: flex;
-    flex-wrap: nowrap;
+    ${media.min.md`
+        width: ${(props) => props.panels * 100}%;
+        display: flex;
+        flex-wrap: nowrap;
+    `}
 `;
 
 const Home = () => {
     let [panelIndex, setPanelIndex] = useState(0);
-    let [showMenu, setShowMenu] = useState(false);
     let [projectIndex, setProjectIndex] = useState(0);
+
+    let [showMenu, setShowMenu] = useState(false);
     let [showProject, setShowProject] = useState(false);
     let [scrollTimeline, setScrollTimeline] = useState(null);
+
     let [pages, setPages] = useState(['home', 'works', 'about', 'contact']);
     let [labels, setlabels] = useState(['home', 'works', 'works2', 'about', 'contact']);
 
@@ -49,7 +62,7 @@ const Home = () => {
     const panelsContainerRef = useRef(null);
 
     const { width, height } = useViewport();
-    const { scrollY } = useScroll();
+    const isDesktop = useMedia([breakpoints.md]);
 
     const horizontalScroll = (container, panels) => {
         const workPanelHeight = panelsRef.current[1].offsetHeight;
@@ -60,7 +73,6 @@ const Home = () => {
                 trigger: container.current,
                 pin: true,
                 scrub: 1,
-                // markers: true,
                 start: 'center center',
                 // base vertical scrolling on how wide the container is so it feels more natural.
                 end: () => '+=' + panels.current[panels.current.length - 1].offsetLeft,
@@ -74,14 +86,12 @@ const Home = () => {
             labels[0]
         );
 
-        // if (workPanelHeight > height) {
         scrollTimeline.add(
             gsap.to(panels.current[1], {
                 y: -workPanelHeight + height,
             }),
             labels[1]
         );
-        // }
 
         scrollTimeline.add(
             gsap.to(panels.current, {
@@ -102,32 +112,13 @@ const Home = () => {
         setScrollTimeline(scrollTimeline);
     };
 
-    // const autoSwitchPanel = (panels) => {
-    //     let labelPos = [];
-
-    //     labels.forEach((label) => labelPos.push(scrollTimeline.scrollTrigger.labelToScroll(label)));
-
-    //     console.log();
-
-    //     if (labelPos[0] <= scrollY && labelPos[1] - 1 > scrollY) {
-    //         setPanelIndex(0);
-    //     } else if (labelPos[1] <= scrollY && labelPos[2] - 1 > scrollY) {
-    //         setPanelIndex(1);
-    //     } else if (labelPos[2] <= scrollY && labelPos[3] - 1 > scrollY) {
-    //         setPanelIndex(2);
-    //     } else if (labelPos[3] <= scrollY) {
-    //         setPanelIndex(3);
-    //     }
-    // };
-
     const panelScroll = (panel, index) => {
         let labelPos = [];
 
         labels.forEach((label) => labelPos.push(scrollTimeline.scrollTrigger.labelToScroll(label)));
 
         ScrollTrigger.create({
-            markers: true,
-            trigger: panel.current[index],
+            trigger: panel.current,
             start: labelPos[index] + ' top',
             end: labelPos[index + 1] + ' top',
             onEnter: () => setPanelIndex(index == 0 ? 1 : index),
@@ -136,34 +127,24 @@ const Home = () => {
     };
 
     useEffect(() => {
-        if (!panelsContainerRef || !panelsRef) {
+        console.log(isDesktop);
+
+        if (!panelsContainerRef || !panelsRef || !isDesktop) {
             return;
         }
 
         horizontalScroll(panelsContainerRef, panelsRef);
 
-        panelScroll(panelsRef, 0);
-        panelScroll(panelsRef, 1);
-        panelScroll(panelsRef, 2);
-        panelScroll(panelsRef, 3);
+        panelsRef.current.forEach((panel, index) => panelScroll(panel, index));
 
         return () => {
             scrollTimeline.scrollTrigger.disable();
             scrollTimeline.kill();
         };
-    }, []);
-
-    useEffect(() => {
-        if (!window || !panelsRef) {
-            return;
-        }
-
-        // autoSwitchPanel(panelsRef);
-        // console.log('scrollY', scrollY);
-    }, [scrollY]);
+    }, [isDesktop, height]);
 
     const switchPanel = (index) => {
-        let modifier = index == 1 ? 2 : panelIndex > index ? -1 : 1;
+        let modifier = index == 1 ? 2 : panelIndex > index ? -0.5 : 0.5;
 
         gsap.to(window, {
             scrollTo: scrollTimeline.scrollTrigger.labelToScroll(pages[index]) + modifier,
