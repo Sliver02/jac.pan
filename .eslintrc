@@ -24,10 +24,10 @@
     "rules": {
         "no-console": 0,
         "quotes": [2, "single", { "allowTemplateLiterals": true }],
-        "prettier/prettier": "error",
         "@next/next/no-img-element": "off",
         "@next/next/no-html-link-for-pages": "off",
         "react/display-name": "off",
-        "react/no-unescaped-entities": 0
+        "react/no-unescaped-entities": 0,
+        "prettier/prettier": ["error", { "endOfLine": "auto" }]
     }
 }

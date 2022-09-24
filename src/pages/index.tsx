@@ -1,11 +1,10 @@
 import Navbar from '@components/navbar';
 import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
-import GlobalContext from './globalContext';
-import styled, { css } from 'styled-components';
-import { gsap, Quart, ScrollTrigger } from '@utils/gsap.js';
+import GlobalContext from '@utils/globalContext';
+import styled from 'styled-components';
+import { gsap, ScrollTrigger } from '@utils/gsap.js';
 import useViewport from '@utils/hooks/useViewport';
-import useScroll from '@utils/hooks/useScroll';
 import useMedia from '@utils/hooks/useMedia';
 import Dots from '@components/dots';
 import { createPanelsRefs } from '@utils/utility';
@@ -61,7 +60,7 @@ const Home = () => {
     const panelsRef = useRef([]);
     const panelsContainerRef = useRef(null);
 
-    const { width, height } = useViewport();
+    const { height } = useViewport();
     const isDesktop = useMedia([breakpoints.md]);
 
     const horizontalScroll = (container, panels) => {
@@ -211,7 +210,7 @@ const Home = () => {
             </Head>
 
             <main>
-                <Navbar on_click={switchPanel} panels={panelsRef} />
+                <Navbar on_click={switchPanel} />
                 <Dots />
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
                     <Panel id={pages[0]} ref={(e) => createPanelsRefs(panelsRef, e, 0)} />

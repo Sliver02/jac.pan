@@ -1,11 +1,10 @@
 import media from '@assets/styles/mediaQueries';
 import { color } from '@assets/styles/variables';
-import GlobalContext from '@pages/globalContext';
+import GlobalContext from '@utils/globalContext';
 import { createPanelsRefs } from '@utils/utility';
 import Image from 'next/image';
 import { useContext, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
-import { gsap, ScrollTrigger } from '@utils/gsap.js';
 
 const Wrap = styled.div`
     flex-wrap: wrap;
@@ -23,8 +22,8 @@ const Logo = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 2rem;
     cursor: pointer;
+    margin: 0 2rem;
     font-size: 1.4rem;
 
     ${LogoImage} {
@@ -41,14 +40,13 @@ const Logo = styled.a`
     }
 `;
 
-const Burger = styled.i`
+const Burger = styled.div`
     z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1rem 1.5rem;
     cursor: pointer;
-    font-size: 3rem;
     transition: transform 0.5s, background-color 0.2s;
 
     &:active,
@@ -58,8 +56,12 @@ const Burger = styled.i`
     }
 
     ${media.min.md`
-        display: none;
+        display: none !important;
     `}
+
+    .material-icons {
+        font-size: 3rem;
+    }
 `;
 
 const Menu = styled.div`
@@ -174,7 +176,7 @@ const StyledNavbar = styled.div`
     width: 100%;
 `;
 
-const Navbar = ({ on_click, panels }) => {
+const Navbar = ({ on_click }) => {
     const { panelIndex, pages, showMenu, setShowMenu, setShowProject } = useContext(GlobalContext);
     const navButtonsRef = useRef([]);
 
@@ -190,15 +192,21 @@ const Navbar = ({ on_click, panels }) => {
     return (
         <StyledNavbar>
             <Wrap>
-                <Logo href=".">
+                <Logo href="." alt="homepage">
                     <LogoImage>
-                        <Image src="/logo.svg" width={50} height={30} layout="responsive" />
+                        <Image
+                            src="/logo.svg"
+                            alt="logo"
+                            width={50}
+                            height={30}
+                            layout="responsive"
+                        />
                     </LogoImage>
                     <h1>jac.pan</h1>
                 </Logo>
 
-                <Burger className="material-icons" onClick={() => toggleMenu()}>
-                    menu
+                <Burger onClick={() => toggleMenu()}>
+                    <i className="material-icons">menu</i>
                 </Burger>
 
                 <Menu showMenu={showMenu}>

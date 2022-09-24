@@ -1,6 +1,6 @@
 import media from '@assets/styles/mediaQueries';
 import { color } from '@assets/styles/variables';
-import GlobalContext from '@pages/globalContext';
+import GlobalContext from '@utils/globalContext';
 import { useContext } from 'react';
 import styled, { css } from 'styled-components';
 
