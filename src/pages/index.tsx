@@ -225,7 +225,7 @@ const Home = () => {
 
                 {!!isDesktop && <MouseFollow />}
 
-                <Particles />
+                {!!isDesktop && <Particles />}
 
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
                     <Panel id={pages[0]} ref={(e) => createRefs(panelsRef, e, 0)} />

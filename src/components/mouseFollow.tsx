@@ -15,7 +15,6 @@ const StyledMouseFollow = styled.div`
     border-radius: 50%;
     width: 5rem;
     height: 5rem;
-    transform: translate(-50%, -50%);
     mix-blend-mode: difference;
 `;
 
@@ -33,6 +32,8 @@ const MouseFollow = () => {
             {
                 scale: 0,
                 opacity: 0,
+                xPercent: -50,
+                yPercent: -50,
             },
             {
                 scale: 1,
@@ -53,6 +54,7 @@ const MouseFollow = () => {
             gsap.to(followerRef.current, {
                 x: mousePos.x,
                 y: mousePos.y,
+
                 ease: 'easeOut',
             });
         }
