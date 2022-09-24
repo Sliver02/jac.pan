@@ -61,7 +61,7 @@ const Home = () => {
     const panelsRef = useRef([]);
     const panelsContainerRef = useRef(null);
 
-    const { height } = useViewport();
+    const { width, height } = useViewport();
     const isDesktop = useMedia([breakpoints.md]);
 
     const horizontalScroll = (container, panels) => {
@@ -138,28 +138,6 @@ const Home = () => {
         });
     };
 
-    useEffect(() => {
-        if (!panelsContainerRef || !panelsRef || isDesktop == null) {
-            return;
-        }
-
-        if (!isDesktop) {
-            console.log('ásufghvabdshju');
-            panelsRef.current.forEach((panel, index) => panelMobileScroll(panel, index));
-        } else {
-            setShowMenu(false);
-
-            horizontalScroll(panelsContainerRef, panelsRef);
-
-            panelsRef.current.forEach((panel, index) => panelScroll(panel, index));
-
-            return () => {
-                scrollTimeline.scrollTrigger.disable();
-                scrollTimeline.kill();
-            };
-        }
-    }, [isDesktop, height]);
-
     const switchPanel = (index) => {
         if (!!isDesktop) {
             let modifier = index == 1 ? 2 : panelIndex > index ? -0.5 : 0.5;
@@ -175,6 +153,35 @@ const Home = () => {
             });
         }
     };
+
+    useEffect(() => {
+        if (!!showMenu || !!showProject) {
+            document.querySelector('html').style.overflowY = 'hidden';
+        } else {
+            document.querySelector('html').style.overflowY = 'auto';
+        }
+    }, [showMenu, showProject]);
+
+    useEffect(() => {
+        if (!panelsContainerRef || !panelsRef || isDesktop == null) {
+            return;
+        }
+
+        if (!isDesktop) {
+            panelsRef.current.forEach((panel, index) => panelMobileScroll(panel, index));
+        } else {
+            setShowMenu(false);
+
+            horizontalScroll(panelsContainerRef, panelsRef);
+
+            panelsRef.current.forEach((panel, index) => panelScroll(panel, index));
+
+            return () => {
+                scrollTimeline.scrollTrigger.disable();
+                scrollTimeline.kill();
+            };
+        }
+    }, [isDesktop, width, height]);
 
     return (
         <GlobalContext.Provider
@@ -214,7 +221,7 @@ const Home = () => {
                 <Navbar on_click={switchPanel} />
 
                 <Dots />
-                <MouseFollow />
+                {!!isDesktop && <MouseFollow />}
 
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
                     <Panel id={pages[0]} ref={(e) => createPanelsRefs(panelsRef, e, 0)} />

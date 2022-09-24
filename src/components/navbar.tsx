@@ -1,10 +1,11 @@
+import { useContext, useEffect, useRef } from 'react';
+import styled, { css } from 'styled-components';
+import Image from 'next/image';
+
 import media from '@assets/styles/mediaQueries';
 import { color } from '@assets/styles/variables';
 import GlobalContext from '@utils/globalContext';
 import { createPanelsRefs } from '@utils/utility';
-import Image from 'next/image';
-import { useContext, useEffect, useRef } from 'react';
-import styled, { css } from 'styled-components';
 
 const Wrap = styled.div`
     flex-wrap: wrap;
@@ -45,8 +46,8 @@ const Burger = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 1.5rem;
     cursor: pointer;
+    padding: 0.6rem 1.5rem;
     transition: transform 0.5s, background-color 0.2s;
 
     &:active,
@@ -57,6 +58,7 @@ const Burger = styled.div`
 
     ${media.min.md`
         display: none !important;
+        padding: 1rem 1.5rem;
     `}
 
     .material-icons {
