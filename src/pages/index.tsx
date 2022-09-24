@@ -7,10 +7,11 @@ import { gsap, ScrollTrigger } from '@utils/gsap.js';
 import useViewport from '@utils/hooks/useViewport';
 import useMedia from '@utils/hooks/useMedia';
 import Dots from '@components/dots';
-import { createPanelsRefs } from '@utils/utility';
+import { createRefs } from '@utils/utility';
 import { breakpoints } from '@assets/styles/variables';
 import media from '@assets/styles/mediaQueries';
 import MouseFollow from '@components/mouseFollow';
+import Particles from '@components/particles';
 
 const Panel = styled.div`
     width: 100%;
@@ -221,22 +222,21 @@ const Home = () => {
                 <Navbar on_click={switchPanel} />
 
                 <Dots />
+
                 {!!isDesktop && <MouseFollow />}
 
+                <Particles />
+
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
-                    <Panel id={pages[0]} ref={(e) => createPanelsRefs(panelsRef, e, 0)} />
-                    <Panel
-                        id={pages[1]}
-                        height="300%"
-                        ref={(e) => createPanelsRefs(panelsRef, e, 1)}
-                    >
+                    <Panel id={pages[0]} ref={(e) => createRefs(panelsRef, e, 0)} />
+                    <Panel id={pages[1]} height="300%" ref={(e) => createRefs(panelsRef, e, 1)}>
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                     </Panel>
-                    <Panel id={pages[2]} ref={(e) => createPanelsRefs(panelsRef, e, 2)} />
-                    <Panel id={pages[3]} ref={(e) => createPanelsRefs(panelsRef, e, 3)} />
+                    <Panel id={pages[2]} ref={(e) => createRefs(panelsRef, e, 2)} />
+                    <Panel id={pages[3]} ref={(e) => createRefs(panelsRef, e, 3)} />
                 </PanelsContainer>
             </main>
 

@@ -1,3 +1,3 @@
-export const createPanelsRefs = (ref, panel, index) => {
+export const createRefs = (ref, panel, index) => {
     ref.current[index] = panel;
 };

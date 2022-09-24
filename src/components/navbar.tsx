@@ -5,7 +5,7 @@ import Image from 'next/image';
 import media from '@assets/styles/mediaQueries';
 import { color } from '@assets/styles/variables';
 import GlobalContext from '@utils/globalContext';
-import { createPanelsRefs } from '@utils/utility';
+import { createRefs } from '@utils/utility';
 
 const Wrap = styled.div`
     flex-wrap: wrap;
@@ -225,7 +225,7 @@ const Navbar = ({ on_click }) => {
                     <Nav>
                         {pages.map((page, index) => (
                             <NavButton
-                                ref={(e) => createPanelsRefs(navButtonsRef, e, index)}
+                                ref={(e) => createRefs(navButtonsRef, e, index)}
                                 key={index}
                                 active={panelIndex === index}
                                 onClick={() => panelIndex != index && handleClick(index)}
