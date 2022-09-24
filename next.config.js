@@ -22,7 +22,7 @@ Object.keys(process.env).forEach((key) => {
 
 const nextConfig = {
     webpack5: true,
-    reactStrictMode: true,
+    // reactStrictMode: true,
     compiler: {
         styledComponents: true,
     },

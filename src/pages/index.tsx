@@ -126,9 +126,21 @@ const Home = () => {
         });
     };
 
-    useEffect(() => {
-        console.log(isDesktop);
+    const panelMobileScroll = (panel, index) => {
+        ScrollTrigger.create({
+            trigger: panel,
+            scrub: 1,
+            markers: true,
+            start: 'top center',
+            end: 'bottom bottom',
+            // base vertical scrolling on how wide the container is so it feels more natural.
+            // end: () => '+=' + panelsContainerRef.current.innerHeight,
+            onEnter: () => setPanelIndex(index),
+            onLeaveBack: () => setPanelIndex(index == 0 ? 0 : index - 1),
+        });
+    };
 
+    useEffect(() => {
         if (!panelsContainerRef || !panelsRef || !isDesktop) {
             return;
         }
@@ -142,6 +154,14 @@ const Home = () => {
             scrollTimeline.kill();
         };
     }, [isDesktop, height]);
+
+    useEffect(() => {
+        if (!panelsContainerRef || !panelsRef || !!isDesktop) {
+            return;
+        }
+
+        panelsRef.current.forEach((panel, index) => panelMobileScroll(panel, index));
+    }, []);
 
     const switchPanel = (index) => {
         let modifier = index == 1 ? 2 : panelIndex > index ? -0.5 : 0.5;

@@ -16,10 +16,12 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     main {
-        overflow-x: hidden;
-        overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         overflow-scrolling: touch;
+        
+        ${media.min.md`
+            overflow: hidden;
+        `}
     }
 
     // base global style
