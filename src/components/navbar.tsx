@@ -103,6 +103,10 @@ const Nav = styled.div`
     `}
 `;
 
+const ButtonText = styled.span`
+    transition: transform 0.2s ease-out;
+`;
+
 const NavButton = styled.a`
     display: flex;
     align-items: center;
@@ -114,7 +118,7 @@ const NavButton = styled.a`
     height: 100%;
     padding: 1rem 1.5rem;
 
-    transition: padding 0.3s ease;
+    transition: padding 0.3s ease-out;
 
     ${media.max.md`
         margin: 0.5rem 0;
@@ -135,6 +139,12 @@ const NavButton = styled.a`
         ${media.max.md`
             color: ${color.dark};
             background: ${color.light};
+        `}
+
+        ${media.min.md`            
+            ${ButtonText} {
+                transform: scale(1.1);
+            }
         `}
     }
 
@@ -218,7 +228,7 @@ const Navbar = ({ on_click }) => {
                                 active={panelIndex === index}
                                 onClick={() => panelIndex != index && handleClick(index)}
                             >
-                                .{page}
+                                <ButtonText>.{page}</ButtonText>
                             </NavButton>
                         ))}
                     </Nav>

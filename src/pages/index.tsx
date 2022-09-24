@@ -2,7 +2,7 @@ import Navbar from '@components/navbar';
 import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
 import GlobalContext from '@utils/globalContext';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { gsap, ScrollTrigger } from '@utils/gsap.js';
 import useViewport from '@utils/hooks/useViewport';
 import useMedia from '@utils/hooks/useMedia';
@@ -10,6 +10,7 @@ import Dots from '@components/dots';
 import { createPanelsRefs } from '@utils/utility';
 import { breakpoints } from '@assets/styles/variables';
 import media from '@assets/styles/mediaQueries';
+import MouseFollow from '@components/mouseFollow';
 
 const Panel = styled.div`
     width: 100%;
@@ -211,7 +212,10 @@ const Home = () => {
 
             <main>
                 <Navbar on_click={switchPanel} />
+
                 <Dots />
+                <MouseFollow />
+
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
                     <Panel id={pages[0]} ref={(e) => createPanelsRefs(panelsRef, e, 0)} />
                     <Panel
