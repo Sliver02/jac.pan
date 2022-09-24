@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const useMedia = (breakpointsRange = [], rule = 'min') => {
-    const [media, setMedia] = useState(false);
+    const [media, setMedia] = useState(null);
 
     useEffect(() => {
         function handleResize() {

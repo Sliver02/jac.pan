@@ -46,13 +46,15 @@ const Burger = styled.i`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 1rem 1.5rem;
+    padding: 1rem 1.5rem;
     cursor: pointer;
     font-size: 3rem;
+    transition: transform 0.5s, background-color 0.2s;
 
     &:active,
-    &:focus {
-        transform: scale(0.8);
+    &:focus,
+    &:hover {
+        background: ${color.black_trasparent};
     }
 
     ${media.min.md`
@@ -72,10 +74,10 @@ const Menu = styled.div`
         top: 0;
         width: 100%;
         height: 100vh;
-        background: ${color.dark_trasparent};
+        background: ${color.black_trasparent};
         font-size: 1.2rem;
 
-        transform: translatex(-100vw);
+        transform: translatex(100vw);
         opacity: 0;
         transition: opacity 0.5s, transform 0.8s;
 
@@ -114,9 +116,15 @@ const NavButton = styled.a`
 
     ${media.max.md`
         margin: 0.5rem 0;
-        background: ${color.dark_trasparent};
         border: 1px solid ${color.light};
         padding: 1rem 2rem;
+
+        ${(props) =>
+            !!props.active &&
+            css`
+                color: ${color.dark};
+                background: ${color.light};
+            `}
     `}
 
     &:hover, 
@@ -167,11 +175,16 @@ const StyledNavbar = styled.div`
 `;
 
 const Navbar = ({ on_click, panels }) => {
-    const { panelIndex, pages, showMenu, setShowMenu } = useContext(GlobalContext);
+    const { panelIndex, pages, showMenu, setShowMenu, setShowProject } = useContext(GlobalContext);
     const navButtonsRef = useRef([]);
 
     const handleClick = (index) => {
         on_click(index);
+    };
+
+    const toggleMenu = () => {
+        setShowProject(false);
+        setShowMenu(!showMenu);
     };
 
     return (
@@ -184,9 +197,11 @@ const Navbar = ({ on_click, panels }) => {
                     <h1>jac.pan</h1>
                 </Logo>
 
-                <Burger className="material-icons">menu</Burger>
+                <Burger className="material-icons" onClick={() => toggleMenu()}>
+                    menu
+                </Burger>
 
-                <Menu>
+                <Menu showMenu={showMenu}>
                     <Nav>
                         {pages.map((page, index) => (
                             <NavButton

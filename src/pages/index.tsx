@@ -130,45 +130,50 @@ const Home = () => {
         ScrollTrigger.create({
             trigger: panel,
             scrub: 1,
-            markers: true,
             start: 'top center',
             end: 'bottom bottom',
             // base vertical scrolling on how wide the container is so it feels more natural.
-            // end: () => '+=' + panelsContainerRef.current.innerHeight,
             onEnter: () => setPanelIndex(index),
             onLeaveBack: () => setPanelIndex(index == 0 ? 0 : index - 1),
         });
     };
 
     useEffect(() => {
-        if (!panelsContainerRef || !panelsRef || !isDesktop) {
+        if (!panelsContainerRef || !panelsRef || isDesktop == null) {
             return;
         }
 
-        horizontalScroll(panelsContainerRef, panelsRef);
+        if (!isDesktop) {
+            console.log('ásufghvabdshju');
+            panelsRef.current.forEach((panel, index) => panelMobileScroll(panel, index));
+        } else {
+            setShowMenu(false);
 
-        panelsRef.current.forEach((panel, index) => panelScroll(panel, index));
+            horizontalScroll(panelsContainerRef, panelsRef);
 
-        return () => {
-            scrollTimeline.scrollTrigger.disable();
-            scrollTimeline.kill();
-        };
+            panelsRef.current.forEach((panel, index) => panelScroll(panel, index));
+
+            return () => {
+                scrollTimeline.scrollTrigger.disable();
+                scrollTimeline.kill();
+            };
+        }
     }, [isDesktop, height]);
 
-    useEffect(() => {
-        if (!panelsContainerRef || !panelsRef || !!isDesktop) {
-            return;
-        }
-
-        panelsRef.current.forEach((panel, index) => panelMobileScroll(panel, index));
-    }, []);
-
     const switchPanel = (index) => {
-        let modifier = index == 1 ? 2 : panelIndex > index ? -0.5 : 0.5;
+        if (!!isDesktop) {
+            let modifier = index == 1 ? 2 : panelIndex > index ? -0.5 : 0.5;
 
-        gsap.to(window, {
-            scrollTo: scrollTimeline.scrollTrigger.labelToScroll(pages[index]) + modifier,
-        });
+            gsap.to(window, {
+                scrollTo: scrollTimeline.scrollTrigger.labelToScroll(pages[index]) + modifier,
+            });
+        } else {
+            setShowMenu(false);
+
+            gsap.to(window, {
+                scrollTo: '#' + pages[index],
+            });
+        }
     };
 
     return (
@@ -209,15 +214,19 @@ const Home = () => {
                 <Navbar on_click={switchPanel} panels={panelsRef} />
                 <Dots />
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
-                    <Panel ref={(e) => createPanelsRefs(panelsRef, e, 0)} />
-                    <Panel height="300%" ref={(e) => createPanelsRefs(panelsRef, e, 1)}>
+                    <Panel id={pages[0]} ref={(e) => createPanelsRefs(panelsRef, e, 0)} />
+                    <Panel
+                        id={pages[1]}
+                        height="300%"
+                        ref={(e) => createPanelsRefs(panelsRef, e, 1)}
+                    >
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                         cazzo schifo{<br />}
                     </Panel>
-                    <Panel ref={(e) => createPanelsRefs(panelsRef, e, 2)} />
-                    <Panel ref={(e) => createPanelsRefs(panelsRef, e, 3)} />
+                    <Panel id={pages[2]} ref={(e) => createPanelsRefs(panelsRef, e, 2)} />
+                    <Panel id={pages[3]} ref={(e) => createPanelsRefs(panelsRef, e, 3)} />
                 </PanelsContainer>
             </main>
 
