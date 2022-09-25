@@ -1,4 +1,4 @@
-import { color } from '@assets/styles/variables';
+import { color } from '@styles/variables';
 import { createRefs } from '@utils/utility';
 import { useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
@@ -11,6 +11,7 @@ const Particle = styled.div`
     background: ${color.white};
     position: absolute;
     opacity: 0;
+    pointer-events: none;
 
     &:after {
         content: '';
@@ -33,6 +34,7 @@ const StyledParticles = styled.div`
     z-index: 1;
     width: 100%;
     height: 100%;
+    pointer-events: none;
 `;
 
 const Particles = () => {
@@ -46,71 +48,64 @@ const Particles = () => {
             top: 15,
             left: 10,
             moving: 5,
-            opacity: 0.6,
+            opacity: 0.4,
             scale: 0.6,
         },
         {
-            top: 80,
-            left: 15,
-            moving: -4,
-            opacity: 0.7,
-            scale: 0.8,
-        },
-        {
-            top: 60,
-            left: 20,
+            top: 15,
+            left: 50,
             moving: 3,
+            opacity: 0.7,
+            scale: 0.6,
+        },
+        {
+            top: 15,
+            left: 90,
+            moving: 5,
             opacity: 0.5,
-            scale: 0.8,
+            scale: 0.6,
         },
         {
-            top: 25,
-            left: 35,
-            moving: -4,
+            top: 50,
+            left: 10,
+            moving: 5,
             opacity: 0.5,
-            scale: 0.8,
+            scale: 0.6,
         },
         {
-            top: 76,
-            left: 40,
-            moving: 4,
-            opacity: 0.5,
-            scale: 0.5,
-        },
-        {
-            top: 90,
-            left: 65,
-            moving: -5,
-            opacity: 0.8,
-            scale: 1,
-        },
-        {
-            top: 20,
-            left: 70,
-            moving: -5,
+            top: 50,
+            left: 50,
+            moving: 1,
             opacity: 0.1,
-            scale: 0.5,
+            scale: 0.6,
         },
         {
-            top: 72,
-            left: 78,
-            moving: -3,
-            opacity: 0.05,
-            scale: 1,
+            top: 50,
+            left: 90,
+            moving: 5,
+            opacity: 0.8,
+            scale: 0.6,
         },
         {
-            top: 20,
+            top: 85,
+            left: 10,
+            moving: 5,
+            opacity: 0.4,
+            scale: 0.6,
+        },
+        {
+            top: 85,
+            left: 50,
+            moving: 3,
+            opacity: 0.3,
+            scale: 0.6,
+        },
+        {
+            top: 85,
             left: 90,
             moving: 5,
             opacity: 0.3,
-            scale: 0.5,
-        },
-        {
-            top: 60,
-            left: 90,
-            moving: -4,
-            opacity: 0.8,
-            scale: 0.8,
+            scale: 0.6,
         },
     ];
 

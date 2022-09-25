@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { breakpoints } from '@assets/styles/variables';
+import { breakpoints } from '@styles/variables';
 
 const useViewport = () => {
     const { xs, sm, md, lg, xl } = breakpoints;

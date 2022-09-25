@@ -1,4 +1,4 @@
-import { breakpoints, color } from '@assets/styles/variables';
+import { breakpoints, color } from '@styles/variables';
 import useMedia from '@utils/hooks/useMedia';
 import useMouse from '@utils/hooks/useMouse';
 import { useEffect, useRef } from 'react';

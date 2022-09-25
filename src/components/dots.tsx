@@ -1,5 +1,5 @@
-import media from '@assets/styles/mediaQueries';
-import { color } from '@assets/styles/variables';
+import media from '@styles/mediaQueries';
+import { color } from '@styles/variables';
 import GlobalContext from '@utils/globalContext';
 import { useContext } from 'react';
 import styled, { css } from 'styled-components';

@@ -8,8 +8,8 @@ import useViewport from '@utils/hooks/useViewport';
 import useMedia from '@utils/hooks/useMedia';
 import Dots from '@components/dots';
 import { createRefs } from '@utils/utility';
-import { breakpoints } from '@assets/styles/variables';
-import media from '@assets/styles/mediaQueries';
+import { breakpoints } from '@styles/variables';
+import media from '@styles/mediaQueries';
 import MouseFollow from '@components/mouseFollow';
 import Particles from '@components/particles';
 
