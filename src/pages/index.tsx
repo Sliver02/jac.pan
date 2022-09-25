@@ -12,6 +12,7 @@ import { breakpoints } from '@styles/variables';
 import media from '@styles/mediaQueries';
 import MouseFollow from '@components/mouseFollow';
 import Particles from '@components/particles';
+import Preview from '@components/preview';
 
 const Panel = styled.div`
     width: 100%;
@@ -23,19 +24,14 @@ const Panel = styled.div`
     font-weight: 600;
     font-size: 1.5em;
     text-align: center;
-    color: white;
     position: relative;
     box-sizing: border-box;
     padding: 10px;
 
     background: ${(props) => props.background};
-    border-bottom: 1px solid white;
-    border-right: none;
 
     ${media.min.md`
         min-height: ${(props) => !!props.height && props.height};
-        border-right: 1px solid white;
-        border-bottom: none;
     `}
 `;
 
@@ -228,13 +224,14 @@ const Home = () => {
                 {!!isDesktop && <Particles />}
 
                 <PanelsContainer ref={panelsContainerRef} panels={4}>
-                    <Panel id={pages[0]} ref={(e) => createRefs(panelsRef, e, 0)} />
-                    <Panel id={pages[1]} height="300%" ref={(e) => createRefs(panelsRef, e, 1)}>
-                        cazzo schifo{<br />}
-                        cazzo schifo{<br />}
-                        cazzo schifo{<br />}
-                        cazzo schifo{<br />}
+                    <Panel id={pages[0]} ref={(e) => createRefs(panelsRef, e, 0)}>
+                        <Preview />
                     </Panel>
+                    <Panel
+                        id={pages[1]}
+                        height="300%"
+                        ref={(e) => createRefs(panelsRef, e, 1)}
+                    ></Panel>
                     <Panel id={pages[2]} ref={(e) => createRefs(panelsRef, e, 2)} />
                     <Panel id={pages[3]} ref={(e) => createRefs(panelsRef, e, 3)} />
                 </PanelsContainer>

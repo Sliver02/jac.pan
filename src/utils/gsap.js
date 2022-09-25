@@ -3,6 +3,7 @@ import 'gsap';
 import { gsap } from 'gsap/dist/gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
+import { Draggable } from 'gsap/dist/Draggable';
 
 // configure/register once we're running in the browser
 if (typeof window !== 'undefined') {
@@ -11,7 +12,7 @@ if (typeof window !== 'undefined') {
         force3D: false,
     });
 
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable);
     gsap.core.globals('ScrollTrigger', ScrollTrigger);
 }
 
@@ -19,3 +20,4 @@ if (typeof window !== 'undefined') {
 export * from 'gsap/dist/gsap';
 export * from 'gsap/dist/ScrollTrigger';
 export * from 'gsap/dist/ScrollToPlugin';
+export * from 'gsap/dist/Draggable';

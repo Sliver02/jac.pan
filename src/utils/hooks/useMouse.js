@@ -1,8 +1,9 @@
-import React from 'react';
-const useMouse = () => {
-    const [mouse, setMouse] = React.useState({ x: null, y: null });
+import { useEffect, useState } from 'react';
 
-    React.useEffect(() => {
+const useMouse = () => {
+    const [mouse, setMouse] = useState({ x: null, y: null });
+
+    useEffect(() => {
         const updateMouse = (ev) => {
             setMouse({ x: ev.clientX, y: ev.clientY });
         };

@@ -1,10 +1,8 @@
-import { breakpoints, color } from '@styles/variables';
-import useMedia from '@utils/hooks/useMedia';
+import { color } from '@styles/variables';
 import useMouse from '@utils/hooks/useMouse';
 import { useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { gsap } from '@utils/gsap.js';
-import useViewport from '@utils/hooks/useViewport';
 
 const StyledMouseFollow = styled.div`
     position: fixed;
@@ -15,7 +13,7 @@ const StyledMouseFollow = styled.div`
     border-radius: 50%;
     width: 5rem;
     height: 5rem;
-    mix-blend-mode: difference;
+    mix-blend-mode: overlay;
 `;
 
 const MouseFollow = () => {

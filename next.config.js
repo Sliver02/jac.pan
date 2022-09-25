@@ -32,7 +32,7 @@ const nextConfig = {
         return config;
     },
     images: {
-        domains: ['picsum.photos'],
+        domains: ['picsum.photos', 'jacopopanzera.com', 'localhost'],
     },
 };
 
