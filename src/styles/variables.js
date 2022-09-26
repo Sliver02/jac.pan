@@ -21,7 +21,7 @@ export const color = {
     white: '#fff',
     light: '#EEEEEE',
     dark: '#222',
-    black: '#000',
+    black: '#141414',
     light_trasparent: 'rgba(50, 50, 50, 0.5)',
     dark_trasparent: 'rgba(34, 34, 34, 0.5)',
     black_trasparent: 'rgba(20, 20, 20, 0.9)',

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { gsap, ScrollTrigger, Draggable } from '@utils/gsap.js';
+import { color } from '@styles/variables';
 
 const StyledPreview = styled.div`
     width: 100%;
@@ -13,8 +14,21 @@ const ProfilePicContainer = styled.div`
     position: absolute;
     top: 10%;
     right: 5%;
-    width: 30rem;
+    width: 25rem;
+    background: ${color.black_trasparent};
 `;
+
+const PicDesc = styled.div`
+    width: 100%;
+    padding: 0.8rem 1rem 1rem;
+    text-align: left;
+
+    p + p {
+        /* margin-top: 1rem; */
+    }
+`;
+
+const Quote = styled.div``;
 
 const Preview = () => {
     const ContainerRef = useRef(null);
@@ -53,6 +67,7 @@ const Preview = () => {
 
     return (
         <StyledPreview ref={ContainerRef}>
+            <Quote>Sucking at something is the first step to be sorta good at something.</Quote>
             <ProfilePicContainer ref={profilePicRef} onMouseDown={(e) => handleClick(e)}>
                 <Image
                     src="/img/me2.jpg"
@@ -60,7 +75,14 @@ const Preview = () => {
                     layout="responsive"
                     width="960"
                     height="1280"
+                    priority
                 />
+                <PicDesc>
+                    <p style={{ fontSize: '1rem', fontWeight: '600' }}>jacopo.panzera</p>
+                    <p style={{ fontSize: '0.6rem' }}>
+                        frontend developer / graphic designer / illustrator
+                    </p>
+                </PicDesc>
             </ProfilePicContainer>
         </StyledPreview>
     );

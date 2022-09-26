@@ -21,9 +21,6 @@ const Panel = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 600;
-    font-size: 1.5em;
-    text-align: center;
     position: relative;
     box-sizing: border-box;
     padding: 10px;
