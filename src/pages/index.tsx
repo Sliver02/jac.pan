@@ -13,6 +13,7 @@ import media from '@styles/mediaQueries';
 import MouseFollow from '@components/mouseFollow';
 import Particles from '@components/particles';
 import Preview from 'src/panels/preview';
+import Works from 'src/panels/works';
 
 const Panel = styled.div`
     width: 100%;
@@ -230,11 +231,9 @@ const Home = () => {
                     <Panel id={pages[0]} ref={(e) => createRefs(panelsRef, e, 0)}>
                         <Preview />
                     </Panel>
-                    <Panel
-                        id={pages[1]}
-                        height="300%"
-                        ref={(e) => createRefs(panelsRef, e, 1)}
-                    ></Panel>
+                    <Panel id={pages[1]} height="300%" ref={(e) => createRefs(panelsRef, e, 1)}>
+                        <Works />
+                    </Panel>
                     <Panel id={pages[2]} ref={(e) => createRefs(panelsRef, e, 2)} />
                     <Panel id={pages[3]} ref={(e) => createRefs(panelsRef, e, 3)} />
                 </PanelsContainer>
