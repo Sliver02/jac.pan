@@ -34,8 +34,8 @@ const StyledDots = styled.div`
     position: fixed;
     display: flex;
     flex-direction: column-reverse;
-    bottom: 2rem;
-    left: 2rem;
+    bottom: 1.8rem;
+    left: 1.8rem;
     z-index: 1;
 
     ${media.min.md`

@@ -12,23 +12,29 @@ import { breakpoints } from '@styles/variables';
 import media from '@styles/mediaQueries';
 import MouseFollow from '@components/mouseFollow';
 import Particles from '@components/particles';
-import Preview from '@components/preview';
+import Preview from 'src/panels/preview';
 
 const Panel = styled.div`
     width: 100%;
     min-height: 100%;
 
     display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 0.8rem;
+    overflow-x: clip;
 
     background: ${(props) => props.background};
 
     ${media.min.md`
-        min-height: ${(props) => !!props.height && props.height};
+        justify-content: center;
+        overflow-x: auto;
+
+         ${(props) =>
+             !!props.height &&
+             css`
+                 min-height: ${props.height};
+             `};
     `}
 `;
 
@@ -196,12 +202,12 @@ const Home = () => {
                 <title>Jacopo Panzera</title>
                 <meta
                     name="description"
-                    content="Jacopo Panzera Portfolio | web developer - graphic desinger - illustrator"
+                    content="Jacopo Panzera Portfolio | frontend developer - 2d artist - graphic desinger"
                 />
 
                 <meta content="Jacopo Panzera" property="og:title" />
                 <meta
-                    content="Jacopo Panzera Portfolio | web developer - graphic desinger - illustrator"
+                    content="Jacopo Panzera Portfolio | frontend developer - 2d artist - graphic desinger"
                     property="og:description"
                 />
                 <meta content="https://image" property="og:image" />
