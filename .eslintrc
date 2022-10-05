@@ -1,0 +1,33 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true,
+        "jest": true,
+        "jquery": true
+    },
+
+    "parserOptions": {
+        "ecmaVersion": 7,
+        "sourceType": "module",
+        "skipBlankLines": true,
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        }
+    },
+
+    "extends": ["next", "next/core-web-vitals"],
+
+    "plugins": ["prettier"],
+
+    "rules": {
+        "no-console": 0,
+        "quotes": [2, "single", { "allowTemplateLiterals": true }],
+        "@next/next/no-img-element": "off",
+        "@next/next/no-html-link-for-pages": "off",
+        "react/display-name": "off",
+        "react/no-unescaped-entities": 0,
+        "prettier/prettier": ["error", { "endOfLine": "auto" }]
+    }
+}
