@@ -1,27 +1,32 @@
 {
-  "name": "jac.pan",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
-    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
-    "lint": "npm run lint:js"
-  },
-  "dependencies": {
-    "core-js": "^3.15.1",
-    "nuxt": "^2.15.7"
-  },
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.14.7",
-    "@nuxtjs/eslint-config": "^6.0.1",
-    "@nuxtjs/eslint-module": "^3.0.2",
-    "eslint": "^7.29.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-vue": "^7.12.1",
-    "prettier": "^2.3.2"
-  }
+    "name": "jac.pan",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --port 4200",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "env-cmd": "10.1.0",
+        "gsap": "^3.11.1",
+        "next": "12.2.2",
+        "next-compose-plugins": "^2.2.1",
+        "next-images": "^1.8.4",
+        "prettier": "^2.7.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-intersection-observer": "^9.4.0",
+        "sharp": "^0.31.0",
+        "styled-components": "^5.3.5"
+    },
+    "devDependencies": {
+        "@types/node": "^18.7.18",
+        "@types/react": "18.0.20",
+        "eslint": "8.23.1",
+        "eslint-config-next": "12.3.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "typescript": "^4.8.3"
+    }
 }
