@@ -42,11 +42,13 @@ const PicDesc = styled.div`
 const Quote = styled.div`
     font-family: 'Space Mono', monospace;
     font-size: 2.2rem;
-    line-height: 0.8;
+    letter-spacing: 1rem;
     margin-bottom: auto;
+    line-height: 1;
 
     ${media.min.md`
-        font-size: 3rem;
+        width: 80%;
+        font-size: 4rem;
     `}
 `;
 
@@ -57,7 +59,6 @@ const TextWrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     word-break: keep-all;
-    line-height: 1;
 
     p {
         max-width: 30rem;
@@ -66,15 +67,6 @@ const TextWrapper = styled.div`
     p + p {
         margin-top: 1rem;
     }
-
-    ${media.min.md`
-        width: 80%;
-
-    `}
-
-    ${media.min.lg`
-        width: 50%;
-    `}
 `;
 
 const Preview = () => {

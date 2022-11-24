@@ -1,7 +1,7 @@
 import media from '@styles/mediaQueries';
 import { color } from '@styles/variables';
 import styled, { css } from 'styled-components';
-import { gsap } from '@utils/gsap.js';
+import { gsap, ScrollTrigger } from '@utils/gsap.js';
 import { useEffect, useRef } from 'react';
 
 const TitleWrapper = styled.div`
@@ -33,16 +33,33 @@ const StyledWorks = styled.div`
     height: 100%;
 `;
 
-const Works = () => {
+const Works = ({ panelScroll }) => {
+    const worksRef = useRef();
     const titleWrapRef = useRef();
     const titleRef = useRef();
 
     useEffect(() => {
-        const tl = gsap.timeline({});
-    }, []);
+        if (!panelScroll || !worksRef || !titleRef) {
+            return;
+        }
+        console.log(panelScroll);
+        panelScroll.add(`start`, '<');
+
+        panelScroll.add(
+            gsap.fromTo(
+                titleRef.current,
+                {
+                    scale: 0.5,
+                },
+                {
+                    scale: 1,
+                }
+            )
+        );
+    }, [panelScroll]);
 
     return (
-        <StyledWorks>
+        <StyledWorks ref={worksRef}>
             <TitleWrapper ref={titleWrapRef}>
                 <Title ref={titleRef}>
                     Selected <br /> Works

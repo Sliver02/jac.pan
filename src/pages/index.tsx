@@ -61,6 +61,7 @@ const Home = () => {
 
     const panelsRef = useRef([]);
     const panelsContainerRef = useRef(null);
+    const panelsScrollRef = useRef([]);
 
     const { width, height } = useViewport();
     const isDesktop = useMedia([breakpoints.md]);
@@ -69,7 +70,6 @@ const Home = () => {
         const workPanelHeight = panelsRef.current[1].offsetHeight;
 
         scrollTimeline = gsap.timeline({
-            ease: 'none',
             scrollTrigger: {
                 trigger: container.current,
                 pin: true,
@@ -118,13 +118,19 @@ const Home = () => {
 
         labels.forEach((label) => labelPos.push(scrollTimeline.scrollTrigger.labelToScroll(label)));
 
-        ScrollTrigger.create({
-            trigger: panel.current,
-            start: labelPos[index] + ' top',
-            end: labelPos[index + 1] + ' top',
-            onEnter: () => setPanelIndex(index == 0 ? 1 : index),
-            onLeaveBack: () => setPanelIndex(index == 0 ? 0 : index - 1),
+        let tl = gsap.timeline({
+            scrollTrigger: {
+                markers: index == 0,
+                trigger: panel.current,
+                scrub: 1,
+                start: labelPos[index] + ' top',
+                end: labelPos[index + 1] + ' bottom',
+                onEnter: () => setPanelIndex(index == 0 ? 1 : index),
+                onLeaveBack: () => setPanelIndex(index == 0 ? 0 : index - 1),
+            },
         });
+
+        createRefs(panelsScrollRef, tl, index);
     };
 
     const panelMobileScroll = (panel, index) => {
@@ -232,7 +238,7 @@ const Home = () => {
                         <Preview />
                     </Panel>
                     <Panel id={pages[1]} height="300%" ref={(e) => createRefs(panelsRef, e, 1)}>
-                        <Works />
+                        <Works panelScroll={panelsScrollRef.current[0]} />
                     </Panel>
                     <Panel id={pages[2]} ref={(e) => createRefs(panelsRef, e, 2)} />
                     <Panel id={pages[3]} ref={(e) => createRefs(panelsRef, e, 3)} />
