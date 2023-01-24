@@ -8,10 +8,10 @@ const useMouse = () => {
             setMouse({ x: ev.clientX, y: ev.clientY });
         };
 
-        window.addEventListener('mousemove', updateMouse);
+        window.addEventListener('pointermove', updateMouse);
 
         return () => {
-            window.removeEventListener('mousemove', updateMouse);
+            window.removeEventListener('pointermove', updateMouse);
         };
     }, []);
 

@@ -141,10 +141,11 @@ const Home = () => {
 
     const switchPanel = (index) => {
         if (!!isDesktop) {
-            let modifier = index == 1 ? 2 : panelIndex > index ? -0.5 : 0.5;
+            let modifier = index == 1 ? 2 : panelIndex > index ? -0.1 : 0.1;
 
             gsap.to(window, {
                 scrollTo: scrollTimeline.scrollTrigger.labelToScroll(pages[index]) + modifier,
+                ease: 'power4',
             });
         } else {
             setShowMenu(false);
